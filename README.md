@@ -92,6 +92,7 @@ I also want them to have different sections on their bio, so they will be handle
 
 
 ## Backend Routes
+------
 
 #### Users:
 
@@ -117,6 +118,8 @@ This is for the current user looking up other users. So it will filter all users
 
 This is for a users profile page. It will render most of their related information, minus security stuff.
 
+------
+
 #### Sessions:
 
 * create/login
@@ -128,6 +131,8 @@ renders the user and auth_token
 For checking the current user when there is an auth token when the app starts.
 
 Renders the user for the received auth_token
+
+------
 
 #### Likes:
 
@@ -147,6 +152,8 @@ Needs a like id. It then deletes that related like.
 
 Renders all of the current user's liked users.
 
+------
+
 #### Matches:
 
 Theoretically doesn't need a create route, as the LikesController will handle that.
@@ -159,6 +166,8 @@ Same as likes route.
 
 Same as likes route.
 
+------
+
 #### Messages:
 
 * Create
@@ -170,6 +179,8 @@ Renders either this message, or all of the messages between these two users.
 
 Needs a user2 id.
 Renders all of the messages for the current user and the selected user, sorted by time.
+
+------
 
 #### Sign:
 
