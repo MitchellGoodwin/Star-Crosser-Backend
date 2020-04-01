@@ -1,0 +1,2 @@
+class SunSignsController < ApplicationController
+end
