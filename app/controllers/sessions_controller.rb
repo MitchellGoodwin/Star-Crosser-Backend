@@ -11,6 +11,11 @@ class SessionsController < ApplicationController
         end
     end
 
+    def index
+        @user = current_user
+        render json: { user: UserSerializer.new(@user), jwt: token }, status: :accepted
+    end
+
     private
 
     def user_login_params
