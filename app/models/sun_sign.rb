@@ -6,7 +6,7 @@ class SunSign < ApplicationRecord
     serialize :favorites,Array
     serialize :planet,Array
     serialize :keywords,Array
-    serialize :compatability,Array
+    serialize :compatibility,Array
     serialize :mental_traits,Array
     serialize :physical_traits,Array
     serialize :sun_dates,Array

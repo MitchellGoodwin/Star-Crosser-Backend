@@ -33,7 +33,7 @@ require 'faker'
 #         symbol: sign['symbol'],
 #         keywords: sign['keywords'],
 #         vibe: sign['vibe'],
-#         compatability: sign['compatability'],
+#         compatibility: sign['compatibility'],
 #         mental_traits: sign['mental_traits'],
 #         physical_traits: sign['physical_traits'],
 #         sun_dates: sign['sun_dates'],
@@ -41,37 +41,48 @@ require 'faker'
 #     )
 # end
 
-puts 'getting data'
+# data.each do |sign|
+#     oldsign = SunSign.find_by(name: sign['name'])
+#     oldsign.compatibility = sign['compatibility']
+#     oldsign.save
+# end
 
-resp = RestClient.get 'https://randomuser.me/api/?nat=us,ca&results=5000'
-
-puts 'converting data'
-
-data = JSON.parse(resp)['results']
-
-lookingForArray = ['male', 'female', 'either']
-
-data.each do |person|
-    user = User.create(
-        email: person['email'],
-        password: person['login']['password'],
-        firstName: person['name']['first'],
-        lastName: person['name']['last'],
-        location: "#{person['location']['city']}, #{person['location']['state']}, #{person['location']['country']}",
-        age: person['dob']['age'],
-        birthDate: person['dob']['date'].split('T')[0],
-        picture: person['picture']['large'],
-        gender: person['gender'],
-        lookingFor: lookingForArray.sample(),
-        bioGeneral: Faker::Lorem.paragraph,
-        bioIntro: Faker::Lorem.paragraph,
-        bioFood: Faker::Lorem.paragraph,
-        bioMovies: Faker::Lorem.paragraph,
-        bioMusic: Faker::Lorem.paragraph,
-        bioBooks: Faker::Lorem.paragraph,
-        bioActivities: Faker::Lorem.paragraph,
-        bioGoals: Faker::Lorem.paragraph
-    )
-    user.sun_sign = user.find_sun_sign
-    user.save
+SunSign.all.each do |sign| 
+    sign.compatibility = sign.compatibility.map{|comp| comp.strip}
+    sign.save
 end
+
+# puts 'getting data'
+
+# resp = RestClient.get 'https://randomuser.me/api/?nat=us,ca&results=5000'
+
+# puts 'converting data'
+
+# data = JSON.parse(resp)['results']
+
+# lookingForArray = ['male', 'female', 'either']
+
+# data.each do |person|
+#     user = User.create(
+#         email: person['email'],
+#         password: person['login']['password'],
+#         firstName: person['name']['first'],
+#         lastName: person['name']['last'],
+#         location: "#{person['location']['city']}, #{person['location']['state']}, #{person['location']['country']}",
+#         age: person['dob']['age'],
+#         birthDate: person['dob']['date'].split('T')[0],
+#         picture: person['picture']['large'],
+#         gender: person['gender'],
+#         lookingFor: lookingForArray.sample(),
+#         bioGeneral: Faker::Lorem.paragraph,
+#         bioIntro: Faker::Lorem.paragraph,
+#         bioFood: Faker::Lorem.paragraph,
+#         bioMovies: Faker::Lorem.paragraph,
+#         bioMusic: Faker::Lorem.paragraph,
+#         bioBooks: Faker::Lorem.paragraph,
+#         bioActivities: Faker::Lorem.paragraph,
+#         bioGoals: Faker::Lorem.paragraph
+#     )
+#     user.sun_sign = user.find_sun_sign
+#     user.save
+# end
