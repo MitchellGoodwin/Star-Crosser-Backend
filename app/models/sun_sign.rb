@@ -10,4 +10,6 @@ class SunSign < ApplicationRecord
     serialize :mental_traits,Array
     serialize :physical_traits,Array
     serialize :sun_dates,Array
+
+    has_many :users
 end
