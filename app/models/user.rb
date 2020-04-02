@@ -25,6 +25,15 @@ class User < ApplicationRecord
         SunSign.all.select{|sign| (sign.sun_dates[0].split(' ')[0] === birth_month &&  sign.sun_dates[0].split(' ')[1].to_i <= birth_day) || (sign.sun_dates[1].split(' ')[0] === birth_month &&  sign.sun_dates[1].split(' ')[1].to_i > birth_day)}[0]
     end
 
+    def get_age
+        birth_day = self.birthDate.split('-')[2].to_i
+        birth_month = self.birthDate.split('-')[1].to_i
+        birth_year = self.birthDate.split('-')[0].to_i
+        now = Time.now.utc.to_date
+        self.age = now.year - birth_year - ((now.month > birth_month || (now.month == birth_month && now.day >= birth_day)) ? 0 : 1)
+        self.save
+    end
+
     def gender_filtered_users
         filtered_users = User.all.select{|user| (self.lookingFor == 'either' || user.gender == self.lookingFor) && (user.lookingFor == self.gender || user.lookingFor == 'either')}
     end

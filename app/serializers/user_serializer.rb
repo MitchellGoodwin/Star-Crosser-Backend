@@ -1,3 +1,3 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :email, :password_digest, :firstName, :lastName, :location, :age, :birthDate, :picture, :gender, :lookingFor, :sunSign_id, :bioIntro, :bioGeneral, :bioFood, :bioMusic, :bioMovies, :bioBooks, :bioActivities, :bioGoals
+  attributes :id, :email, :firstName, :lastName, :location, :age, :birthDate, :picture, :gender, :lookingFor, :sun_sign_id, :bioIntro, :bioGeneral, :bioFood, :bioMusic, :bioMovies, :bioBooks, :bioActivities, :bioGoals
 end
