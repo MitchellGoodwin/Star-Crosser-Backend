@@ -21,6 +21,16 @@ class UsersController < ApplicationController
         users = current_user.gender_filtered_users.first(20)
         render json: users.to_json(only: [:firstName, :lastName, :location, :age, :picture, :lookingFor, :gender])
     end
+
+    def show
+
+    end
+
+    def update
+        user = current_user
+        user.update(user_params)
+        render json: { user: UserSerializer.new(user)}
+    end
     
     private
     
