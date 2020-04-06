@@ -18,12 +18,13 @@ class UsersController < ApplicationController
     end
 
     def index
-        users = current_user.gender_filtered_users.first(20)
-        render json: users.to_json(only: [:firstName, :lastName, :location, :age, :picture, :lookingFor, :gender])
+        users = current_user.gender_filtered_users.first(400)
+        render json: users.to_json(only: [:firstName, :lastName, :location, :age, :picture, :lookingFor, :gender, :id])
     end
 
     def show
-
+        user = User.find_by(id: params[:id])
+        render json: user.to_json()
     end
 
     def update
