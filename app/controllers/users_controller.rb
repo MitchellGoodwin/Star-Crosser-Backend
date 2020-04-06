@@ -8,7 +8,6 @@ class UsersController < ApplicationController
         @user.picture = 'https://t4.ftcdn.net/jpg/00/64/67/63/240_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg'
         @user.save
         @user.get_age
-        byebug
         if @user.valid?
             @token = encode_token(user_id: @user.id)
             render json: { user: UserSerializer.new(@user), jwt: @token }, status: :created
@@ -24,7 +23,9 @@ class UsersController < ApplicationController
 
     def show
         user = User.find_by(id: params[:id])
-        render json: user.to_json()
+        likes = user.liking_users.select{|like| like.liker == current_user}
+        matches = user.matches.select{|match| match.user1 == current_user || match.user2 == current_user}
+        render json: { user: UserSerializer.new(user), likes: likes, matches: matches }
     end
 
     def update

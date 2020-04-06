@@ -10,7 +10,7 @@ class User < ApplicationRecord
     has_many :liking_users, foreign_key: :likee_id, class_name: 'Like'
     has_many :likers, through: :liked_users
 
-    has_many :matches
+    has_many :matches, foreign_key: :user1_id
     has_many :matched_users, through: :matches
 
     has_many :messages_sent, foreign_key: :sender_id, class_name: 'Message'
