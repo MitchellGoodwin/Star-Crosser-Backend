@@ -13,6 +13,12 @@ class LikesController < ApplicationController
         end
     end
 
+    def index
+        liked_users = current_user.likees
+        matched_users = current_user.matched_users
+        render json: { liked_users: liked_users, matched_users: matched_users}
+    end
+
     def destroy
         like = Like.find_by(id: params[:id])
         render json: like.destroy().to_json()
