@@ -10,6 +10,9 @@ require 'rest-client'
 
 require 'faker'
 
+require 'geokit'
+
+
 # puts 'getting data'
 
 # resp = RestClient.get 'https://zodiacal.herokuapp.com/api'
@@ -47,10 +50,10 @@ require 'faker'
 #     oldsign.save
 # end
 
-SunSign.all.each do |sign| 
-    sign.compatibility = sign.compatibility.map{|comp| comp.strip}
-    sign.save
-end
+# SunSign.all.each do |sign| 
+#     sign.compatibility = sign.compatibility.map{|comp| comp.strip}
+#     sign.save
+# end
 
 # puts 'getting data'
 

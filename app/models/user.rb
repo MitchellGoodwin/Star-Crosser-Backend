@@ -1,5 +1,6 @@
 class User < ApplicationRecord
     has_secure_password
+    acts_as_mappable :auto_geocode=>{:field=>:location, :error_message=>'Could not geocode address'}
     validates :email, uniqueness: { case_sensitive: false }
 
     belongs_to :sun_sign
@@ -34,11 +35,29 @@ class User < ApplicationRecord
         self.save
     end
 
-    def gender_filtered_users
-        filtered_users = User.all.select{|user| (self.lookingFor == 'either' || user.gender == self.lookingFor) && (user.lookingFor == self.gender || user.lookingFor == 'either')}
+    def gender_filtered_users(users=User.all)
+        filtered_users = users.select{|user| (self.lookingFor == 'either' || user.gender == self.lookingFor) && (user.lookingFor == self.gender || user.lookingFor == 'either')}
     end
 
-    def filter_sun_compatibility
-        self.gender_filtered_users.select{|user| self.sun_sign.compatibility.include?(user.sun_sign.name)}
+    def filter_sun_compatibility(users=self.gender_filtered_users)
+        users.select{|user| self.sun_sign.compatibility.include?(user.sun_sign.name)}
+    end
+
+    def filter_age(users, max, min=18)
+        users.select{|user| user.age >= min && user.age <= max}
+    end
+
+    def geocode_address
+        geo=Geokit::Geocoders::GoogleGeocoder.geocode (location)
+        errors.add(:address, "Could not Geocode address") if !geo.success
+        self.lat, self.lng = geo.lat,geo.lng if geo.success
+        self.save
+    end
+
+    def self.update_lats
+        self.all.each do |user|
+            user.geocode_address
+            user.save
+        end
     end
 end

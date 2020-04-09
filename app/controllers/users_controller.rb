@@ -5,6 +5,7 @@ class UsersController < ApplicationController
         @user = User.create(user_params)
         @user.sun_sign = @user.find_sun_sign
         @user.location = "#{params[:user][:city]}, #{params[:user][:state]}, #{params[:user][:country]}"
+        @user.geocode_address
         @user.picture = 'https://t4.ftcdn.net/jpg/00/64/67/63/240_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg'
         @user.save
         @user.get_age
@@ -17,7 +18,23 @@ class UsersController < ApplicationController
     end
 
     def index
-        users = current_user.gender_filtered_users.first(400)
+        if request.headers['Filter']
+            if request.headers['Filter'].include? 'Distance'
+                users = User.within(request.headers['Distance'].to_i, :origin => current_user)
+            else
+                users = User.all
+            end
+            users = current_user.gender_filtered_users(users)
+            if request.headers['Filter'].include? 'Compatability'
+                users = current_user.filter_sun_compatibility(users)
+            end
+            if request.headers['Filter'].include? 'Age'
+                users = current_user.filter_age(users, request.headers['Age_Max'].to_i, request.headers['Age_Min'].to_i)
+            end
+        else
+            users = current_user.gender_filtered_users()
+        end
+            
         render json: users.to_json(only: [:firstName, :lastName, :location, :age, :picture, :lookingFor, :gender, :id])
     end
 
@@ -31,6 +48,8 @@ class UsersController < ApplicationController
     def update
         user = current_user
         user.update(user_params)
+        user.geocode_address
+        user.save
         render json: { user: UserSerializer.new(user)}
     end
     

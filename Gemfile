@@ -49,3 +49,7 @@ gem "faker", "~> 2.11"
 gem 'rest-client'
 
 gem 'figaro'
+
+gem 'geokit'
+
+gem 'geokit-rails'
