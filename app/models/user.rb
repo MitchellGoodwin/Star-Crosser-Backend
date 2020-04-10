@@ -9,7 +9,7 @@ class User < ApplicationRecord
     has_many :likees, through: :liked_users
 
     has_many :liking_users, foreign_key: :likee_id, class_name: 'Like'
-    has_many :likers, through: :liked_users
+    has_many :likers, through: :liking_users
 
     has_many :matches, foreign_key: :user1_id
     has_many :matched_users, through: :matches
@@ -19,6 +19,8 @@ class User < ApplicationRecord
 
     has_many :messages_received, foreign_key: :receiver_id, class_name: 'Message'
     has_many :messaging_users, through: :messages_received
+
+    has_many :notifications, foreign_key: :recipient_id
 
     def find_sun_sign
         birth_month = Date::MONTHNAMES[self.birthDate.split('-')[1].to_i]

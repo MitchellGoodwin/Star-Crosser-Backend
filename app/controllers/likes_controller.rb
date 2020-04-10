@@ -6,10 +6,20 @@ class LikesController < ApplicationController
             like = Like.find_by(likee: current_user, liker: likee)
             like.destroy()
             match = Match.create(user1_id: likee.id, user2_id: current_user.id)
-            render json: { match: match.to_json(), like: [] }
+            render json: { match: MatchSerializer.new(match), like: 0 }
         else
-            like = Like.create(likee: likee, liker: current_user)
-            render json: { like: like.to_json(), match: [] }
+            if like = Like.create(likee: likee, liker: current_user)
+                notification = Notification.new(user: current_user, recipient: likee, action: 'Like', text: '', read: false)
+                notification.save
+
+                serialized_data = ActiveModelSerializers::Adapter::Json.new(
+                NotificationSerializer.new(notification)
+                ).serializable_hash
+
+                NotificationsChannel.broadcast_to likee, serialized_data
+                
+            end
+            render json: { like: LikeSerializer.new(like), match: 0 }
         end
     end
 

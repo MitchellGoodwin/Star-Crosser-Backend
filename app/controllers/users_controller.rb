@@ -29,19 +29,19 @@ class UsersController < ApplicationController
                 users = current_user.filter_sun_compatibility(users)
             end
             if request.headers['Filter'].include? 'Age'
-                users = current_user.filter_age(users, request.headers['Age_Max'].to_i, request.headers['Age_Min'].to_i)
+                users = current_user.filter_age(users, request.headers['AgeMax'].to_i, request.headers['AgeMin'].to_i)
             end
         else
             users = current_user.gender_filtered_users()
         end
             
-        render json: users.to_json(only: [:firstName, :lastName, :location, :age, :picture, :lookingFor, :gender, :id])
+        render json: users.first(100).to_json(only: [:firstName, :lastName, :location, :age, :picture, :lookingFor, :gender, :id])
     end
 
     def show
         user = User.find_by(id: params[:id])
         likes = user.liking_users.select{|like| like.liker == current_user}
-        matches = user.matches.select{|match| match.user1 == current_user || match.user2 == current_user}
+        matches = user.matches.select{|match| match.matched_user == current_user}
         render json: { user: UserSerializer.new(user), likes: likes, matches: matches }
     end
 
