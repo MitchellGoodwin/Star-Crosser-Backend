@@ -1,9 +1,12 @@
 class User < ApplicationRecord
+    include Rails.application.routes.url_helpers
     has_secure_password
     acts_as_mappable :auto_geocode=>{:field=>:location, :error_message=>'Could not geocode address'}
     validates :email, uniqueness: { case_sensitive: false }
 
     belongs_to :sun_sign
+
+    has_one_attached :image
 
     has_many :liked_users, foreign_key: :liker_id, class_name: 'Like'
     has_many :likees, through: :liked_users
@@ -28,6 +31,14 @@ class User < ApplicationRecord
         SunSign.all.select{|sign| (sign.sun_dates[0].split(' ')[0] === birth_month &&  sign.sun_dates[0].split(' ')[1].to_i <= birth_day) || (sign.sun_dates[1].split(' ')[0] === birth_month &&  sign.sun_dates[1].split(' ')[1].to_i > birth_day)}[0]
     end
 
+    def image_url
+        if self.image.attached?
+            return url_for(self.image)
+        else
+            return self.picture
+        end
+    end
+
     def get_age
         birth_day = self.birthDate.split('-')[2].to_i
         birth_month = self.birthDate.split('-')[1].to_i
@@ -36,6 +47,7 @@ class User < ApplicationRecord
         self.age = now.year - birth_year - ((now.month > birth_month || (now.month == birth_month && now.day >= birth_day)) ? 0 : 1)
         self.save
     end
+
 
     def gender_filtered_users(users=User.all)
         filtered_users = users.select{|user| (self.lookingFor == 'either' || user.gender == self.lookingFor) && (user.lookingFor == self.gender || user.lookingFor == 'either')}

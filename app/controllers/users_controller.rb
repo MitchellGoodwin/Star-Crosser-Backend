@@ -47,13 +47,17 @@ class UsersController < ApplicationController
 
     def update
         user = current_user
-        user.update(user_params)
+        user.update(update_params)
         user.geocode_address
         user.save
         render json: { user: UserSerializer.new(user)}
     end
     
     private
+
+    def update_params
+        params.permit(:email, :password, :firstName, :lastName, :location, :age, :birthDate, :picture, :gender, :lookingFor, :bioIntro, :bioGeneral, :bioFood, :bioMusic, :bioMovies, :bioBooks, :bioActivities, :bioGoals, :image)
+    end
     
     def user_params
         params.require(:user).permit(:email, :password, :firstName, :lastName, :location, :age, :birthDate, :picture, :gender, :lookingFor, :bioIntro, :bioGeneral, :bioFood, :bioMusic, :bioMovies, :bioBooks, :bioActivities, :bioGoals)
