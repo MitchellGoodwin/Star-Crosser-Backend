@@ -18,6 +18,6 @@ class MessagesController < ApplicationController
     def show
         receiver = User.find_by(id: params[:id])
         messages = Message.all.select{|message| (message.sender == receiver && message.receiver == current_user) || message.sender == current_user && message.receiver == receiver}
-        render json: messages.to_json(:include => {:receiver => {only: [:id, :picture, :firstName, :lastName]}})
+        render json: messages.to_json(:include => {:receiver => {only: [:id, :picture, :firstName, :lastName, :image_url]}})
     end
 end

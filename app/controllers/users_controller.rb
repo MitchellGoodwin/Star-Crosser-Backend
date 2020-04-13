@@ -35,7 +35,7 @@ class UsersController < ApplicationController
             users = current_user.gender_filtered_users()
         end
             
-        render json: users.first(100).to_json(only: [:firstName, :lastName, :location, :age, :picture, :lookingFor, :gender, :id])
+        render json: ActiveModel::Serializer::CollectionSerializer.new(users.first(100), each_serializer: UserSerializer)
     end
 
     def show

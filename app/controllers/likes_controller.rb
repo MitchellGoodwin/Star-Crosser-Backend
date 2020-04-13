@@ -35,7 +35,8 @@ class LikesController < ApplicationController
     def index
         liked_users = current_user.likees
         matched_users = current_user.matched_users
-        render json: { liked_users: liked_users, matched_users: matched_users}
+        render json: { liked_users: ActiveModel::Serializer::CollectionSerializer.new(liked_users, each_serializer: UserSerializer), 
+        matched_users: ActiveModel::Serializer::CollectionSerializer.new(matched_users, each_serializer: UserSerializer)}
     end
 
     def destroy
