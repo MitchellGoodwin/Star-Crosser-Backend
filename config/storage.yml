@@ -6,10 +6,7 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
-amazon:
-  service: S3
-  access_key_id: "AKIASL6AHIYM2VGYOEUW"
-  secret_access_key: "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"
+
 
 cloudinary:
   service: Cloudinary
