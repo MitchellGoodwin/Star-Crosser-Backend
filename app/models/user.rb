@@ -39,6 +39,14 @@ class User < ApplicationRecord
         end
     end
 
+    def element
+        self.sun_sign.element
+    end
+
+    def sun_sign_name
+        self.sun_sign.name
+    end
+
     def get_age
         birth_day = self.birthDate.split('-')[2].to_i
         birth_month = self.birthDate.split('-')[1].to_i

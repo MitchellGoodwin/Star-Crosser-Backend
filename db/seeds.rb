@@ -50,10 +50,11 @@ require 'geokit'
 #     oldsign.save
 # end
 
-# SunSign.all.each do |sign| 
-#     sign.compatibility = sign.compatibility.map{|comp| comp.strip}
-#     sign.save
-# end
+SunSign.all.each do |sign| 
+    filepath = "zodiac_images/#{sign.name.downcase}.jpg"
+    filename = "#{sign.name.downcase}.jpg"
+    sign.image.attach(io: File.open(filepath), filename: filename, content_type: 'application/jpg') 
+end
 
 # puts 'getting data'
 

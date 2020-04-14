@@ -3,6 +3,6 @@ class SunSignsController < ApplicationController
     
     def show
         sign = SunSign.find_by(id: params[:id])
-        render json: sign.to_json()
+        render json: { sign: SunSignSerializer.new(sign)}
     end
 end

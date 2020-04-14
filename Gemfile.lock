@@ -95,6 +95,8 @@ GEM
     erubi (1.9.0)
     faker (2.11.0)
       i18n (>= 1.6, < 2)
+    fast_jsonapi (1.5)
+      activesupport (>= 4.2)
     ffi (1.12.2)
     figaro (1.1.1)
       thor (~> 0.14)
@@ -215,6 +217,7 @@ DEPENDENCIES
   byebug
   cloudinary
   faker (~> 2.11)
+  fast_jsonapi
   figaro
   geokit
   geokit-rails

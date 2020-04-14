@@ -57,3 +57,5 @@ gem 'geokit-rails'
 gem "aws-sdk-s3", require: false
 
 gem "cloudinary"
+
+gem 'fast_jsonapi'

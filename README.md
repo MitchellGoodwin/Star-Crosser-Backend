@@ -259,3 +259,8 @@ A gem for environment variables.
 * Add restrictions for if not subscribed
 * Add an ability to block users
 * Add uploading photo files
+
+
+# Credits
+
+Zodiac images by <a href="https://pixabay.com/users/DarkWorkX-1664300/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=4374411">DarkWorkX</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=4374411">Pixabay</a>
