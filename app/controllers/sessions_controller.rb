@@ -13,7 +13,8 @@ class SessionsController < ApplicationController
 
     def index
         user = current_user
-        render json: { user: UserSerializer.new(user)}, status: :accepted
+        notifications = user.notifications.reverse()
+        render json: { user: UserSerializer.new(user), notifications: ActiveModel::Serializer::CollectionSerializer.new(notifications, each_serializer: NotificationSerializer)}, status: :accepted
     end
 
     private
